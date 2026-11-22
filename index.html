@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mapa de Tib&aacute;s - Proyecto 3 SIG</title>
+<link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css">
+<style>
+  html, body { height: 100%; margin: 0; font-family: sans-serif; }
+  #mapa { height: 100%; }
+</style>
+</head>
+<body>
+<div id="mapa"></div>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+<script>
+  // Limites del canton de Tibas en WGS84 [sur, oeste] y [norte, este]
+  var limites = [[9.935, -84.115], [9.98, -84.045]];
+
+  var mapa = L.map('mapa', {
+    center: [9.9567, -84.081],
+    zoom: 14,
+    minZoom: 12,
+    maxZoom: 18,
+    maxBounds: [[9.92, -84.13], [9.995, -84.03]]   // evita alejarse demasiado de Tibas
+  });
+
+  // Unica capa del mapa: los tiles generados con TileMill (formato z/x/y)
+  L.tileLayer('tiles/{z}/{x}/{y}.png', {
+    minZoom: 12,
+    maxZoom: 18,
+    bounds: limites,          // no pide tiles fuera del area exportada
+    attribution: 'Datos: Atlas de Costa Rica 2008 (TEC), colaboradores de OpenStreetMap, hitos geod&eacute;sicos'
+  }).addTo(mapa);
+
+  L.control.scale({ imperial: false }).addTo(mapa);
+</script>
+</body>
+</html>
